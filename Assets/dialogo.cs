@@ -18,7 +18,15 @@ public class dialogo : MonoBehaviour
     {
         "Bienvenido al juego",
         "Sere tu guia",
-        "Para empezar presiona ENTER"
+        "Para empezar presiona ENTER",
+        "Ah",
+        "...",
+        "...", 
+        "No te preocupes¡",
+        "Por suerte exite un reparador de bugs¡",
+        "Pero primero...",
+        "",
+        "limpiemos un poco",
     };
 
     private int mensajeActual = 0;
