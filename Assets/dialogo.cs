@@ -27,6 +27,9 @@ public class dialogo : MonoBehaviour
         "Pero primero...",
         "",
         "limpiemos un poco",
+        "",
+        "ahora si",
+        "puedes tocar los ajustes",
     };
 
     private int mensajeActual = 0;

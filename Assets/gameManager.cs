@@ -6,12 +6,12 @@ public class gameManager : MonoBehaviour
 {
     public dialogo control;
 
-    [Header("Tiempo antes de iniciar")]
-    public float tiempoInicio = 3f;
+    [Header("Tiempo para pausar")]
+    public float tiempo = 0;
 
     public float timer;
 
-    private bool activado = false;
+    public bool activado = false;
     private bool enterUsado = false;
 
     void Update()
@@ -21,9 +21,9 @@ public class gameManager : MonoBehaviour
         {
             control.controlDialogo();
             enterUsado = true;
-            tiempoInicio = 23;
+            tiempo = 20;
             activado = false;
-            
+
         }
 
         // Timer automático
@@ -31,7 +31,7 @@ public class gameManager : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer >= tiempoInicio)
+            if (timer >= tiempo)
             {
                 activado = true;
                 timer = 0;
@@ -39,5 +39,13 @@ public class gameManager : MonoBehaviour
                 control.controlDialogo();
             }
         }
+    }
+
+    public void Activar(int tiempo)
+    {
+        control.controlDialogo();
+        enterUsado = true;
+        tiempo = tiempo;
+        activado = false;
     }
 }

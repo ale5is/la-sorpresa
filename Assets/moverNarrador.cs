@@ -14,10 +14,10 @@ public class moverNarrador : MonoBehaviour
     public Vector2 destino2 = new Vector2(0, 0);
 
     [Header("Velocidad")]
-    public float velocidad = 500f;
+    public float velocidad = 0;
 
     [Header("Tiempo antes de iniciar")]
-    public float tiempoInicio = 3f;
+    public float tiempo = 0;
 
     public bool activar;
 
@@ -50,7 +50,7 @@ public class moverNarrador : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer >= tiempoInicio)
+            if (timer >= tiempo)
             {
                 // Ir al primer destino
                 if (estado == 0)
