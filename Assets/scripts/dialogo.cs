@@ -14,22 +14,9 @@ public class dialogo : MonoBehaviour
     [Header("Control")]
     public bool continuarDialogo = true;
 
-    private string[] mensajes =
+    public string[] mensajes =
     {
-        "Bienvenido al juego",
-        "Sere tu guia",
-        "Para empezar presiona ENTER",
-        "Ah",
-        "...",
-        "...", 
-        "No te preocupes¡",
-        "Por suerte exite un reparador de bugs¡",
-        "Pero primero...",
-        "",
-        "limpiemos un poco",
-        "",
-        "ahora si",
-        "puedes tocar los ajustes",
+        
     };
 
     private int mensajeActual = 0;

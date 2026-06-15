@@ -1058,8 +1058,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moverHacia: {x: -20, y: 0, z: 0}
-  velocidad: 3.5
-  tiempoInicio: 20
+  velocidad: 2.6
+  tiempoInicio: 20.5
   movimientoActivo: 0
 --- !u!1 &848092625
 GameObject:
@@ -2189,9 +2189,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destino1: {x: -1102, y: -312}
-  teleport: {x: 1083, y: 60}
-  destino2: {x: -1125, y: 60}
-  velocidad: 300
+  teleport: {x: 1083, y: -50}
+  destino2: {x: -1125, y: -50}
+  velocidad: 3
   tiempo: 16
   activar: 0
   estado: 0
@@ -2681,6 +2681,20 @@ MonoBehaviour:
   velocidadLetras: 0.075
   tiempoEntreMensajes: 1.5
   continuarDialogo: 1
+  mensajes:
+  - Bienvenido al juego
+  - "Ser\xE9 tu gu\xEDa"
+  - Para empezar, presiona ENTER
+  - Ah
+  - ...
+  - ...
+  - "\xA1No te preocupes!"
+  - Por suerte, existe un reparador de bugs
+  - Pero primero...
+  - 
+  - Limpiemos un poco
+  - "Ahora s\xED."
+  - Puedes tocar los ajustes
 --- !u!114 &1773987247
 MonoBehaviour:
   m_ObjectHideFlags: 0

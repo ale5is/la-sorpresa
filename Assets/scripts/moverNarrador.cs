@@ -58,7 +58,7 @@ public class moverNarrador : MonoBehaviour
                     rect.anchoredPosition = Vector2.MoveTowards(
                         rect.anchoredPosition,
                         destino1,
-                        velocidad * Time.deltaTime
+                        (velocidad * 100) * Time.deltaTime
                     );
 
                     if (rect.anchoredPosition == destino1)
@@ -78,7 +78,7 @@ public class moverNarrador : MonoBehaviour
                     rect.anchoredPosition = Vector2.MoveTowards(
                         rect.anchoredPosition,
                         destino2,
-                        velocidad * Time.deltaTime
+                        (velocidad * 100) * Time.deltaTime
                     );
 
                     if (rect.anchoredPosition == destino2)
