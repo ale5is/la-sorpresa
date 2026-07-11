@@ -6,11 +6,12 @@ TagManager:
   tags:
   - suelo
   - Spawn
+  - escondite
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - escondite
   - Water
   - UI
   - 

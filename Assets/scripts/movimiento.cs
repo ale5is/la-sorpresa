@@ -1,17 +1,18 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
 public class movimiento : MonoBehaviour
 {
+    [Header("Movimiento")]
     public float speed = 5f;
     public float jumpForce = 7f;
-    [Header("Sprite")]
-    public SpriteRenderer sprite;
 
-    private Rigidbody2D rb;
-    private bool isGrounded;
+    [Header("Referencias")]
+    public SpriteRenderer sprite;
+    public Animator anim;
+    public Rigidbody2D rb;
 
     [Header("Vida")]
     public int vidaMax = 5;
@@ -21,40 +22,31 @@ public class movimiento : MonoBehaviour
     public int vidas = 3;
     public TMP_Text textoVidas;
 
-    [Header("Invulnerabilidad")]
-    public float tiempoInvulnerable = 1.5f;
-    public bool invulnerable = false;
-    public bool dañado = false;
-
-    private float timerInvulnerabilidad = 0f;
-
     [Header("UI")]
     public Slider barraVida;
     public GameObject canvasGameOver;
 
-    private bool muerto = false;
-    private Vector3 puntoRespawn;
+    [Header("Invulnerabilidad")]
+    public float tiempoInvulnerable = 1.5f;
+    private float timerInvulnerabilidad;
+    private bool invulnerable;
 
-    [Header("Animaciones")]
-    public Animator anim; // Animator del jugador
+    [Header("Estado")]
+    public bool escondido; // ðŸ‘ˆ SE VE EN INSPECTOR
+
+    private bool isGrounded;
+    private bool muerto;
+    private Vector3 puntoRespawn;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+
         vidaActual = vidaMax;
         puntoRespawn = transform.position;
 
-        if (barraVida != null)
-        {
-            barraVida.maxValue = vidaMax;
-            barraVida.value = vidaActual;
-        }
-
-        if (textoVidas != null)
-            textoVidas.text = "Vidas: " + vidas;
-
-        if (canvasGameOver != null)
-            canvasGameOver.SetActive(false);
+        UpdateUI();
+        //canvasGameOver?.SetActive(false);
     }
 
     void Update()
@@ -66,119 +58,61 @@ public class movimiento : MonoBehaviour
             return;
         }
 
-        // --- MOVIMIENTO ---
-        float move = Input.GetAxisRaw("Horizontal"); // -1, 0 o 1
+        Move();
+        Jump();
+        Flip();
+        HandleInvulnerability();
+    }
+
+    // ---------------- MOVIMIENTO ----------------
+    void Move()
+    {
+        float move = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(move * speed, rb.velocity.y);
 
-        // --- SALTO ---
+        if (anim) anim.SetBool("running", move != 0);
+    }
+
+    void Jump()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        }
-
-        // --- ANIMACIONES Y FLIP ---
-        if (anim != null)
-        {
-            bool moviendose = move != 0;
-
-            if (!isGrounded) // en el aire
-            {
-                //anim.SetBool("saltar", true);
-                //anim.SetBool("correr", false);
-                //anim.SetBool("quieto", false);
-            }
-            else if (moviendose) // caminando
-            {
-                //anim.SetBool("saltar", false);
-                //anim.SetBool("correr", true);
-                //anim.SetBool("quieto", false);
-            }
-            else // quieto
-            {
-                //anim.SetBool("saltar", false);
-                //anim.SetBool("correr", false);
-                //anim.SetBool("quieto", true);
-            }
-
-            // --- FLIP DEL PERSONAJE ---
-            if (move > 0)
-                sprite.flipX = false; // mirando a la derecha
-            else if (move < 0)
-                sprite.flipX = true;  // mirando a la izquierda
-        }
-
-        // --- INVULNERABILIDAD ---
-        if (invulnerable)
-        {
-            timerInvulnerabilidad -= Time.deltaTime;
-            if (timerInvulnerabilidad <= 0)
-            {
-                invulnerable = false;
-                timerInvulnerabilidad = 0;
-            }
-        }
-
-        // --- DAÑO CONTINUO ---
-        if (dañado && !invulnerable)
-        {
-            AplicarDaño(1);
-            invulnerable = true;
-            timerInvulnerabilidad = tiempoInvulnerable;
-        }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void Flip()
     {
-        if (collision.gameObject.CompareTag("suelo"))
-        {
-            isGrounded = true;
-            //anim.SetBool("saltar", false);
-        }
+        float move = Input.GetAxisRaw("Horizontal");
+
+        if (move != 0)
+            sprite.flipX = move < 0;
     }
 
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("suelo"))
-            isGrounded = false;
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Spawn"))
-        {
-            float baseY = other.bounds.min.y;
-            puntoRespawn = new Vector3(other.transform.position.x, baseY, transform.position.z);
-        }
-    }
-
-    public void RecibirDaño(int daño)
+    // ---------------- VIDA ----------------
+    public void RecibirDaÃ±o(int dmg)
     {
         if (invulnerable || muerto) return;
 
-        AplicarDaño(daño);
+        ApplyDamage(dmg);
         invulnerable = true;
         timerInvulnerabilidad = tiempoInvulnerable;
     }
 
-    void AplicarDaño(int daño)
+    void ApplyDamage(int dmg)
     {
-        vidaActual -= daño;
-
-        if (barraVida != null)
-            barraVida.value = vidaActual;
+        vidaActual -= dmg;
+        UpdateUI();
 
         if (vidaActual <= 0)
-            PerderVida();
+            LoseLife();
     }
 
-    void PerderVida()
+    void LoseLife()
     {
         vidas--;
-        if (textoVidas != null)
-            textoVidas.text = "Vidas: " + vidas;
+        UpdateUI();
 
         if (vidas <= 0)
-            Morir();
+            Die();
         else
             Respawn();
     }
@@ -186,19 +120,61 @@ public class movimiento : MonoBehaviour
     void Respawn()
     {
         vidaActual = vidaMax;
-        if (barraVida != null)
-            barraVida.value = vidaActual;
-
         transform.position = puntoRespawn;
+        rb.velocity = Vector2.zero;
+        UpdateUI();
+    }
+
+    void Die()
+    {
+        muerto = true;
+        canvasGameOver?.SetActive(true);
         rb.velocity = Vector2.zero;
     }
 
-    void Morir()
+    // ---------------- INVULNERABILIDAD ----------------
+    void HandleInvulnerability()
     {
-        muerto = true;
-        if (canvasGameOver != null)
-            canvasGameOver.SetActive(true);
+        if (!invulnerable) return;
 
-        rb.velocity = Vector2.zero;
+        timerInvulnerabilidad -= Time.deltaTime;
+
+        if (timerInvulnerabilidad <= 0)
+            invulnerable = false;
+    }
+
+    // ---------------- UI ----------------
+    void UpdateUI()
+    {
+        if (barraVida) barraVida.value = vidaActual;
+        if (textoVidas) textoVidas.text = "Vidas: " + vidas;
+    }
+
+    // ---------------- COLISIONES ----------------
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("suelo"))
+            isGrounded = true;
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("suelo"))
+            isGrounded = false;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Spawn"))
+            puntoRespawn = other.transform.position;
+
+        if (other.CompareTag("escondite"))
+            escondido = true;
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("escondite"))
+            escondido = false;
     }
 }
