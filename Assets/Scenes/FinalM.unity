@@ -257,7 +257,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texto: {fileID: 1963798649}
-  mensaje: 'La voluntad del heroe se quebro por todo EL DESORDEN de sus pensamientos...
+  mensaje: 'Espero y espero...
+
+    Pero nunca vino...
 
     ...
 
@@ -326,7 +328,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 029b997e371d12e4f9b70d8df446a606, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ad2d3ed2e54bf214c8627b65cc2b8853, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

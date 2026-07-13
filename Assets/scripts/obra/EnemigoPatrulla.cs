@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(LineRenderer))]
 public class EnemigoIA : MonoBehaviour
@@ -88,7 +89,7 @@ public class EnemigoIA : MonoBehaviour
 
         linea.SetPosition(0, origen);
 
-        // ❌ fuera de rango o fuera del cono
+        // Fuera del rango o del cono
         if (distancia > radioVision || angulo > anguloVision / 2f)
         {
             linea.SetPosition(1, origen + direccion * radioVision);
@@ -97,7 +98,7 @@ public class EnemigoIA : MonoBehaviour
             return;
         }
 
-        // 🟡 jugador escondido (SIN OBSTÁCULOS, SOLO ESTO)
+        // Jugador escondido
         if (jugador.escondido)
         {
             linea.SetPosition(1, origen + direccion * radioVision);
@@ -106,11 +107,14 @@ public class EnemigoIA : MonoBehaviour
             return;
         }
 
-        // 🟢 detectado
+        // Jugador detectado
         linea.SetPosition(1, jugador.transform.position);
         linea.startColor = Color.green;
         linea.endColor = Color.green;
 
         Debug.Log("¡Jugador detectado!");
+
+        // Reiniciar la escena
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 287345952}
   - component: {fileID: 287345951}
   - component: {fileID: 287345955}
+  - component: {fileID: 287345956}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -244,6 +245,19 @@ MonoBehaviour:
   tiempoEntreLetras: 0
   duracionFade: 0.4
   objetoAlFinal: {fileID: 3543580610457064487}
+--- !u!114 &287345956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287345949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec45a3d408b356d4ba7556530bcde9a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nombreEscena: Casa
 --- !u!1 &944933017
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +649,38 @@ PrefabInstance:
     - target: {fileID: 3543580610446596170, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
       propertyPath: m_Name
       value: narrador
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337547432783969017, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
+      propertyPath: velocidadLetras
+      value: 0.075
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337547432783969017, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
+      propertyPath: grupos.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337547432783969017, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
+      propertyPath: tiempoEntreFrases
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337547432783969017, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
+      propertyPath: grupos.Array.data[0].frases.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337547432783969017, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
+      propertyPath: grupos.Array.data[0].frases.Array.data[0]
+      value: ...
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337547432783969017, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
+      propertyPath: grupos.Array.data[0].frases.Array.data[1]
+      value: "Pero esos son simples sue\xF1os..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337547432783969017, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
+      propertyPath: grupos.Array.data[0].frases.Array.data[2]
+      value: "Es hora de de'E'espertar h\xE9roe..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337547432783969017, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
+      propertyPath: grupos.Array.data[0].frases.Array.data[3]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7726596034734267085, guid: 2e3b77d82dc5da54c9e8598034da459a, type: 3}
       propertyPath: m_Pivot.x

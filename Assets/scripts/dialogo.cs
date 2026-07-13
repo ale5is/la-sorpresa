@@ -1,6 +1,13 @@
 ﻿using TMPro;
 using UnityEngine;
 
+[System.Serializable]
+public class GrupoDialogo
+{
+    [TextArea(2, 5)]
+    public string[] frases;
+}
+
 public class dialogo : MonoBehaviour
 {
     public TextMeshProUGUI texto;
@@ -8,30 +15,34 @@ public class dialogo : MonoBehaviour
     [Header("Velocidad escritura")]
     public float velocidadLetras = 0.05f;
 
-    [Header("Tiempo entre mensajes")]
-    public float tiempoEntreMensajes = 2f;
+    [Header("Tiempo entre frases")]
+    public float tiempoEntreFrases = 2f;
 
     [Header("Control")]
     public bool continuarDialogo = true;
 
-    public string[] mensajes =
-    {
-        
-    };
+    [Header("Grupos de diálogo")]
+    public GrupoDialogo[] grupos;
 
-    private int mensajeActual = 0;
+    private int grupoActual = 0;
+    private int fraseActual = 0;
     private int letraActual = 0;
 
     private float timerLetras = 0f;
-    private float timerMensaje = 0f;
+    private float timerFrase = 0f;
 
     private bool escribiendo = true;
     private bool esperandoSiguiente = false;
-    private bool puedeEmpezar = false;
 
     void Start()
     {
         texto.text = "";
+
+        if (grupos.Length == 0 || grupos[0].frases.Length == 0)
+        {
+            enabled = false;
+            return;
+        }
     }
 
     void Update()
@@ -44,33 +55,34 @@ public class dialogo : MonoBehaviour
             {
                 timerLetras = 0f;
 
-                if (letraActual < mensajes[mensajeActual].Length)
+                string frase = grupos[grupoActual].frases[fraseActual];
+
+                if (letraActual < frase.Length)
                 {
-                    texto.text += mensajes[mensajeActual][letraActual];
+                    texto.text += frase[letraActual];
                     letraActual++;
                 }
                 else
                 {
                     escribiendo = false;
                     esperandoSiguiente = true;
-                    timerMensaje = 0f;
+                    timerFrase = 0f;
                 }
             }
         }
-
-        //ESPERAR ENTRE MENSAJES
         else if (esperandoSiguiente)
         {
             if (!continuarDialogo)
                 return;
 
-            timerMensaje += Time.deltaTime;
+            timerFrase += Time.deltaTime;
 
-            if (timerMensaje >= tiempoEntreMensajes)
+            if (timerFrase >= tiempoEntreFrases)
             {
-                mensajeActual++;
+                fraseActual++;
 
-                if (mensajeActual < mensajes.Length)
+                // ¿Quedan frases en este grupo?
+                if (fraseActual < grupos[grupoActual].frases.Length)
                 {
                     texto.text = "";
                     letraActual = 0;
@@ -80,15 +92,36 @@ public class dialogo : MonoBehaviour
                 }
                 else
                 {
+                    // Terminó el grupo
+                    continuarDialogo = false;
                     esperandoSiguiente = false;
-                    puedeEmpezar = true;
                 }
             }
         }
     }
 
+    // Llamar desde otro script para pasar al siguiente grupo
     public void controlDialogo()
     {
-        continuarDialogo = !continuarDialogo;
+        if (grupoActual >= grupos.Length)
+            return;
+
+        // Si terminó el grupo actual, pasar al siguiente
+        if (fraseActual >= grupos[grupoActual].frases.Length)
+        {
+            grupoActual++;
+
+            if (grupoActual >= grupos.Length)
+                return;
+
+            fraseActual = 0;
+        }
+
+        texto.text = "";
+        letraActual = 0;
+
+        escribiendo = true;
+        esperandoSiguiente = false;
+        continuarDialogo = true;
     }
 }

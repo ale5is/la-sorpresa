@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.14668608, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -175,16 +175,16 @@ MonoBehaviour:
   speed: 5
   jumpForce: 7
   sprite: {fileID: 0}
+  anim: {fileID: 0}
+  rb: {fileID: 0}
   vidaMax: 5
   vidaActual: 0
   vidas: 3
   textoVidas: {fileID: 0}
-  tiempoInvulnerable: 1.5
-  invulnerable: 0
-  "da\xF1ado": 0
   barraVida: {fileID: 0}
   canvasGameOver: {fileID: 0}
-  anim: {fileID: 0}
+  tiempoInvulnerable: 1.5
+  escondido: 0
 --- !u!114 &6158544071323672811
 MonoBehaviour:
   m_ObjectHideFlags: 0
